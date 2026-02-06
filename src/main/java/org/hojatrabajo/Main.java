@@ -6,7 +6,7 @@ import java.util.Arrays;
 /**
  * Clase principal que ejecuta pruebas de rendimiento
  * sobre distintos algoritmos de ordenamiento.
- * Carlos Altán
+ * Carlos Altán 25772
  * Sergio Tepaz
  */
 public class Main {
