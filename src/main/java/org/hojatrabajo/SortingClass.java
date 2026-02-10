@@ -12,7 +12,6 @@ public class SortingClass implements Comparable<SortingClass> {
 
     /**
      * Ordena un arreglo utilizando el algoritmo Gnome Sort.
-     *
      * @param <T>   tipo de dato comparable
      * @param array arreglo a ordenar
      */
@@ -32,7 +31,6 @@ public class SortingClass implements Comparable<SortingClass> {
 
     /**
      * Ordena un arreglo utilizando el algoritmo Merge Sort.
-     *
      * @param <T>   tipo de dato comparable
      * @param array arreglo a ordenar
      */
@@ -52,7 +50,6 @@ public class SortingClass implements Comparable<SortingClass> {
 
     /**
      * Combina dos arreglos ordenados en uno solo.
-     *
      * @param <T>   tipo de dato comparable
      * @param array arreglo resultante
      * @param left  subarreglo izquierdo
@@ -79,10 +76,139 @@ public class SortingClass implements Comparable<SortingClass> {
     }
 
     /**
-     * Implementación requerida por la interfaz Comparable.
+     * Ordena un arreglo utilizando el algoritmo Quick Sort.
+     * @param <T>   tipo de dato comparable
+     * @param array arreglo a ordenar
+     */
+    public <T extends Comparable<T>> void quickSort(T[] array) {
+        quickSort(array, 0, array.length - 1);
+    }
+
+    /**
+     * Metodo recursivo auxiliar de Quick Sort.
+     * @param <T>   tipo de dato comparable
+     * @param array arreglo a ordenar
+     * @param low   índice inferior del rango a ordenar
+     * @param high  índice superior del rango a ordenar
+     */
+    private <T extends Comparable<T>> void quickSort(T[] array, int low, int high) {
+        if (low < high) {
+            int pi = partition(array, low, high);
+            quickSort(array, low, pi - 1);
+            quickSort(array, pi + 1, high);
+        }
+    }
+
+    /**
+     * Particiona el arreglo para Quick Sort.
+     * @param <T>   tipo de dato comparable
+     * @param array arreglo a particionar
+     * @param low   índice inferior
+     * @param high  índice superior (usado como pivote)
+     * @return índice final del pivote
+     */
+    private <T extends Comparable<T>> int partition(T[] array, int low, int high) {
+        T pivot = array[high];
+        int i = (low - 1);
+
+        for (int j = low; j < high; j++) {
+            if (array[j].compareTo(pivot) <= 0) {
+                i++;
+                T temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+
+        T temp = array[i + 1];
+        array[i + 1] = array[high];
+        array[high] = temp;
+        return i + 1;
+    }
+
+    /**
+     * Ordena un arreglo utilizando el algoritmo Radix Sort.
+     * @param array arreglo de enteros a ordenar
+     */
+    public void radixSort(Integer[] array) {
+        if (array.length == 0) {
+            return;
+        }
+
+        int max = getMax(array);
+        for (int exp = 1; max / exp > 0; exp *= 10) {
+            countSort(array, exp);
+        }
+    }
+
+    /**
+     * Encuentra el valor máximo en el arreglo.
+     * Metodo auxiliar utilizado por radixSort.
      *
+     * @param array arreglo de enteros
+     * @return el valor máximo encontrado
+     */
+    private int getMax(Integer[] array) {
+        int max = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] > max) {
+                max = array[i];
+            }
+        }
+        return max;
+    }
+
+    /**
+     * Realiza un counting sort basado en el dígito representado por exp.
+     * Metodo auxiliar utilizado por radixSort.
+     *
+     * @param array arreglo a ordenar
+     * @param exp   exponente que representa la posición del dígito (1, 10, 100, etc.)
+     */
+    private void countSort(Integer[] array, int exp) {
+        int n = array.length;
+        Integer[] output = new Integer[n];
+        int[] count = new int[10];
+        Arrays.fill(count, 0);
+
+        for (Integer integer : array) {
+            count[(integer / exp) % 10]++;
+        }
+
+        for (int i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+
+        for (int i = n - 1; i >= 0; i--) {
+            output[count[(array[i] / exp) % 10] - 1] = array[i];
+            count[(array[i] / exp) % 10]--;
+        }
+
+        System.arraycopy(output, 0, array, 0, n);
+    }
+
+    /**
+     * Ordena un arreglo utilizando el algoritmo Insertion Sort.
+     * @param <T>   tipo de dato comparable
+     * @param array arreglo a ordenar
+     */
+    public <T extends Comparable<T>> void insertionSort(T[] array) {
+        int n = array.length;
+        for (int i = 1; i < n; i++) {
+            T key = array[i];
+            int j = i - 1;
+
+            while (j >= 0 && array[j].compareTo(key) > 0) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = key;
+        }
+    }
+
+    /**
+     * Implementación requerida por la interfaz Comparable.
      * @param o objeto a comparar
-     * @return valor de comparación
      */
     @Override
     public int compareTo(SortingClass o) {
