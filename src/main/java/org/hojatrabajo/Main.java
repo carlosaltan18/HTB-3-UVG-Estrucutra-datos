@@ -21,7 +21,7 @@ public class Main {
         GenerateFile file = new GenerateFile();
         SortingClass sortingClass = new SortingClass();
 
-        int n = 2000;
+        int n = 3000;
 
         file.generateRandomNumbers(n);
         Integer[] datosBase = file.readFromFile();
