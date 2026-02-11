@@ -108,23 +108,29 @@ public class SortingClass implements Comparable<SortingClass> {
      * @return índice final del pivote
      */
     private <T extends Comparable<T>> int partition(T[] array, int low, int high) {
+        int pivotIndex = low + (int) (Math.random() * (high - low + 1));
+        swap(array, pivotIndex, high);
+
         T pivot = array[high];
-        int i = (low - 1);
+        int i = low - 1;
 
         for (int j = low; j < high; j++) {
             if (array[j].compareTo(pivot) <= 0) {
                 i++;
-                T temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
+                swap(array, i, j);
             }
         }
 
-        T temp = array[i + 1];
-        array[i + 1] = array[high];
-        array[high] = temp;
+        swap(array, i + 1, high);
         return i + 1;
     }
+    private <T> void swap(T[] array, int i, int j) {
+        T temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+
 
     /**
      * Ordena un arreglo utilizando el algoritmo Radix Sort.
